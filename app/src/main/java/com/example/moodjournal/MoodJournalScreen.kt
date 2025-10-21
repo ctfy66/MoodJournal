@@ -26,7 +26,8 @@ import com.example.moodjournal.viewmodel.MoodViewModel
 fun MoodJournalScreen(
     viewModel: MoodViewModel,
     onLogSuccess: () -> Unit = {},
-    onBackToDashboard: () -> Unit = {}
+    onBackToDashboard: () -> Unit = {},
+    onNavigateToCBT: () -> Unit = {}
 ) {
     var selectedMood by remember { mutableStateOf<Int?>(null) }
     var selectedFactors by remember { mutableStateOf(setOf<String>()) }
@@ -235,15 +236,44 @@ fun MoodJournalScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // CBT Link
-            Text(
-                text = "或使用认知行为疗法",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = cyanText,
+            Card(
                 modifier = Modifier
-                    .clickable { /* Handle CBT click */ }
-                    .padding(bottom = 24.dp)
-            )
+                    .fillMaxWidth()
+                    .clickable { onNavigateToCBT() },
+                colors = CardDefaults.cardColors(
+                    containerColor = cardBackground
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "🧠",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "或使用认知行为疗法",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = cyanText
+                    )
+                    Text(
+                        text = " →",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = cyanText,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -255,16 +285,23 @@ fun MoodIcon(
     onClick: () -> Unit,
     backgroundColor: Color
 ) {
+    val cyanAccent = Color(0xFF00E5FF)
+    val purpleAccent = Color(0xFF7C3AED)
+    
     Box(
         modifier = Modifier
-            .size(54.dp)
+            .size(if (isSelected) 60.dp else 54.dp)
             .clip(CircleShape)
             .background(
-                if (isSelected) backgroundColor.copy(alpha = 0.8f) else backgroundColor
+                if (isSelected) {
+                    purpleAccent.copy(alpha = 0.3f)
+                } else {
+                    backgroundColor
+                }
             )
             .border(
-                width = if (isSelected) 2.dp else 0.dp,
-                color = if (isSelected) Color.White.copy(alpha = 0.3f) else Color.Transparent,
+                width = if (isSelected) 3.dp else 0.dp,
+                color = if (isSelected) cyanAccent else Color.Transparent,
                 shape = CircleShape
             )
             .clickable(onClick = onClick),
@@ -272,7 +309,7 @@ fun MoodIcon(
     ) {
         Text(
             text = emoji,
-            fontSize = 28.sp
+            fontSize = if (isSelected) 32.sp else 28.sp
         )
     }
 }
@@ -285,17 +322,24 @@ fun RowScope.FactorChip(
     borderColor: Color,
     backgroundColor: Color
 ) {
+    val cyanAccent = Color(0xFF00E5FF)
+    val purpleAccent = Color(0xFF7C3AED)
+    
     Box(
         modifier = Modifier
             .weight(1f)
             .height(40.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(
-                if (isSelected) borderColor.copy(alpha = 0.5f) else backgroundColor
+                if (isSelected) {
+                    purpleAccent.copy(alpha = 0.4f)
+                } else {
+                    backgroundColor
+                }
             )
             .border(
-                width = 1.dp,
-                color = borderColor,
+                width = if (isSelected) 2.dp else 1.dp,
+                color = if (isSelected) cyanAccent else borderColor,
                 shape = RoundedCornerShape(20.dp)
             )
             .clickable(onClick = onClick),
@@ -304,8 +348,8 @@ fun RowScope.FactorChip(
         Text(
             text = text,
             fontSize = 13.sp,
-            color = Color.White.copy(alpha = 0.9f),
-            fontWeight = FontWeight.Normal
+            color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f),
+            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
         )
     }
 }

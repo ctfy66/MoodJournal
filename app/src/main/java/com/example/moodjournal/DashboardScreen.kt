@@ -172,7 +172,7 @@ fun DashboardScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "本周心情",
+                        text = "最近心情",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = white,

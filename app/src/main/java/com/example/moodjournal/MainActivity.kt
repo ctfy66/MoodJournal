@@ -149,7 +149,8 @@ fun MoodJournalApp(
             MoodJournalScreen(
                 viewModel = moodViewModel,
                 onLogSuccess = { currentScreen = "success" },
-                onBackToDashboard = { currentScreen = "dashboard" }
+                onBackToDashboard = { currentScreen = "dashboard" },
+                onNavigateToCBT = { currentScreen = "cbt" }
             )
         }
         "success" -> {
