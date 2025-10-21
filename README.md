@@ -5,13 +5,15 @@
 ## ✨ 特性
 
 ### 核心功能
-- 📝 **心情记录** - 记录每天的情绪状态（5种情绪等级）
+
+- 📝 **心情记录** - 记录每天的情绪状态（5 种情绪等级）
 - 🎯 **因素标记** - 标记影响心情的因素（工作、睡眠、健康等）
 - 📖 **日记笔记** - 添加文字记录详细的心情描述
 - 📊 **数据统计** - 查看心情趋势、分布和连续记录天数
 - 📜 **历史记录** - 浏览所有历史心情记录
 
 ### 用户系统
+
 - 🔐 **用户注册/登录** - 完整的账号系统
 - 👤 **多用户支持** - 每个用户的数据完全隔离
 - 🔒 **密码加密** - SHA-256 加密保护用户密码
@@ -19,6 +21,7 @@
 - 🚪 **安全登出** - 随时退出账号
 
 ### 数据管理
+
 - 💾 **本地存储** - 使用 Room 数据库持久化存储
 - 🔄 **实时同步** - UI 自动更新最新数据
 - 🗑️ **数据清除** - 可以清除所有记录
@@ -33,17 +36,20 @@
 ## 🏗️ 技术栈
 
 ### Android 开发
+
 - **Kotlin** - 主要编程语言
 - **Jetpack Compose** - 声明式 UI 框架
 - **Material Design 3** - UI 设计系统
 
 ### 架构组件
+
 - **MVVM 架构** - 清晰的代码结构
 - **ViewModel** - UI 状态管理
 - **StateFlow** - 响应式数据流
 - **Coroutines** - 异步操作
 
 ### 数据存储
+
 - **Room Database** - SQLite 数据库抽象层
 - **SharedPreferences** - 轻量级键值存储
 - **Gson** - JSON 序列化
@@ -82,6 +88,7 @@ app/src/main/java/com/example/moodjournal/
 ## 🚀 开始使用
 
 ### 环境要求
+
 - Android Studio Hedgehog | 2023.1.1 或更高版本
 - Android SDK 24 或更高版本
 - Kotlin 2.0+
@@ -89,12 +96,14 @@ app/src/main/java/com/example/moodjournal/
 ### 安装步骤
 
 1. **克隆仓库**
+
    ```bash
    git clone git@github.com:ctfy66/MoodJournal.git
    cd MoodJournal
    ```
 
 2. **打开项目**
+
    - 使用 Android Studio 打开项目
    - 等待 Gradle 同步完成
 
@@ -105,11 +114,13 @@ app/src/main/java/com/example/moodjournal/
 ## 📱 功能截图
 
 ### 用户认证
+
 - 欢迎页面 - 应用启动界面
 - 登录页面 - 用户登录
 - 注册页面 - 新用户注册
 
 ### 主要功能
+
 - 主页面 - 展示最近记录和统计卡片
 - 记录心情 - 选择情绪、因素和写笔记
 - 历史记录 - 查看所有历史记录
@@ -125,6 +136,7 @@ app/src/main/java/com/example/moodjournal/
 - ✅ 完整的输入验证
 
 **⚠️ 注意**: 当前版本适用于学习和开发。生产环境建议：
+
 - 使用 BCrypt 或 Argon2 替代 SHA-256
 - 添加密码盐值（salt）
 - 实现会话过期机制
@@ -133,6 +145,7 @@ app/src/main/java/com/example/moodjournal/
 ## 📝 开发日志
 
 ### v1.0.0 (MVP) - 2025-10-20
+
 - ✅ 完整的用户认证系统
 - ✅ 心情记录功能
 - ✅ 历史记录查看
@@ -143,6 +156,7 @@ app/src/main/java/com/example/moodjournal/
 ## 🛣️ Roadmap
 
 ### 近期计划
+
 - [ ] 密码找回功能
 - [ ] 用户头像上传
 - [ ] 数据导出功能
@@ -151,6 +165,7 @@ app/src/main/java/com/example/moodjournal/
 - [ ] 密码强度增强（BCrypt）
 
 ### 未来展望
+
 - [ ] 心情提醒通知
 - [ ] 更多统计图表
 - [ ] 心情日历视图
@@ -175,6 +190,7 @@ app/src/main/java/com/example/moodjournal/
 ## 👤 作者
 
 **ctfy66**
+
 - GitHub: [@ctfy66](https://github.com/ctfy66)
 
 ## 🙏 致谢
@@ -186,6 +202,7 @@ app/src/main/java/com/example/moodjournal/
 ## 📬 联系方式
 
 如有问题或建议，请：
+
 - 提交 [Issue](https://github.com/ctfy66/MoodJournal/issues)
 - 发起 [Discussion](https://github.com/ctfy66/MoodJournal/discussions)
 

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moodjournal.viewmodel.MoodViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
@@ -43,6 +44,10 @@ fun SettingsScreen(
     var darkModeEnabled by remember { mutableStateOf(true) }
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+    
+    // Snackbar state
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -160,7 +165,14 @@ fun SettingsScreen(
                     trailing = {
                         Switch(
                             checked = notificationsEnabled,
-                            onCheckedChange = { notificationsEnabled = it },
+                            onCheckedChange = { 
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "通知提醒功能暂未实现，敬请期待",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = white,
                                 checkedTrackColor = cyanAccent,
@@ -182,7 +194,14 @@ fun SettingsScreen(
                     trailing = {
                         Switch(
                             checked = darkModeEnabled,
-                            onCheckedChange = { darkModeEnabled = it },
+                            onCheckedChange = { 
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "深色模式切换功能暂未实现，敬请期待",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = white,
                                 checkedTrackColor = cyanAccent,
@@ -208,7 +227,14 @@ fun SettingsScreen(
                             tint = lightGray
                         )
                     },
-                    onClick = { /* Change language */ }
+                    onClick = { 
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "语言切换功能暂未实现，敬请期待",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 )
             }
 
@@ -233,7 +259,14 @@ fun SettingsScreen(
                             tint = lightGray
                         )
                     },
-                    onClick = { /* Backup data */ }
+                    onClick = { 
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "数据备份功能暂未实现，敬请期待",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 )
                 
                 Divider(color = borderColor, thickness = 1.dp)
@@ -251,7 +284,14 @@ fun SettingsScreen(
                             tint = lightGray
                         )
                     },
-                    onClick = { /* Privacy settings */ }
+                    onClick = { 
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "隐私设置功能暂未实现，敬请期待",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 )
                 
                 Divider(color = borderColor, thickness = 1.dp)
@@ -304,7 +344,14 @@ fun SettingsScreen(
                             tint = lightGray
                         )
                     },
-                    onClick = { /* Help */ }
+                    onClick = { 
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "帮助与反馈功能暂未实现，敬请期待",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 )
                 
                 Divider(color = borderColor, thickness = 1.dp)
@@ -322,7 +369,14 @@ fun SettingsScreen(
                             tint = lightGray
                         )
                     },
-                    onClick = { /* Privacy policy */ }
+                    onClick = { 
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "隐私政策功能暂未实现，敬请期待",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 )
             }
 
@@ -358,6 +412,22 @@ fun SettingsScreen(
             }
 
             Spacer(modifier = Modifier.height(40.dp))
+        }
+        
+        // Snackbar Host
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        ) { snackbarData ->
+            Snackbar(
+                snackbarData = snackbarData,
+                containerColor = cardBackground,
+                contentColor = white,
+                shape = RoundedCornerShape(12.dp),
+                actionColor = cyanAccent
+            )
         }
 
         // Logout Confirmation Dialog

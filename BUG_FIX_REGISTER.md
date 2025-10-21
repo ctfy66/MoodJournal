@@ -2,9 +2,10 @@
 
 ## 🐛 问题描述
 
-**症状**: 退出登录后注册新用户时，记录显示的是上一个用户的数据。只有退出登录再登录进去，才正常显示0条记录。
+**症状**: 退出登录后注册新用户时，记录显示的是上一个用户的数据。只有退出登录再登录进去，才正常显示 0 条记录。
 
 **原因分析**:
+
 1. 当用户登出时，`AuthViewModel` 的 `_currentUser` 被设置为 `null`
 2. 但是 `MoodViewModel` 中的数据（`_allEntries`, `_recentEntries` 等）没有被清除
 3. 注册新用户后跳转到登录页，此时 `currentUser` 仍然是 `null`
@@ -58,7 +59,7 @@ LaunchedEffect(currentUser) {
 确保注册成功后不会保留旧的认证状态：
 
 ```kotlin
-onRegisterSuccess = { 
+onRegisterSuccess = {
     authViewModel.resetAuthState()
     currentScreen = "login"
 }
@@ -77,8 +78,9 @@ onRegisterSuccess = {
 ## 🔄 现在的完整流程
 
 ### 用户登出流程
+
 ```
-1. 点击"退出登录" 
+1. 点击"退出登录"
 2. AuthViewModel.logout() 被调用
    - authRepository.logout() 清除 SharedPreferences
    - _currentUser.value = null
@@ -90,6 +92,7 @@ onRegisterSuccess = {
 ```
 
 ### 注册新用户流程
+
 ```
 1. 填写注册表单
 2. AuthViewModel.register() 被调用
@@ -121,6 +124,7 @@ onRegisterSuccess = {
 请按以下步骤测试修复效果：
 
 ### 测试场景 1: 登出并注册新用户
+
 ```
 1. 登录用户A，记录几条心情
 2. 查看主页，确认显示用户A的记录
@@ -131,6 +135,7 @@ onRegisterSuccess = {
 ```
 
 ### 测试场景 2: 多次切换用户
+
 ```
 1. 登录用户A，记录心情
 2. 退出登录
@@ -144,6 +149,7 @@ onRegisterSuccess = {
 ```
 
 ### 测试场景 3: 注册后直接登录
+
 ```
 1. 注册新用户C
 2. 在注册成功页面，跳转到登录页
@@ -187,13 +193,16 @@ DashboardScreen: recentEntries.size=0, entryCount=0
 如果问题仍然出现，请检查：
 
 1. **是否卸载重装了应用**
+
    - 旧版本的数据库可能有缓存
 
 2. **查看 Logcat 日志**
+
    - 确认 `clearData()` 被调用
    - 确认 `setUserId()` 使用了正确的 userId
 
 3. **检查 Database Inspector**
+
    - View > Tool Windows > App Inspection
    - 确认不同用户的数据确实独立
 
