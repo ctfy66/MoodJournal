@@ -7,8 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [MoodEntry::class, User::class],
-    version = 2,
+    entities = [MoodEntry::class, User::class, ThoughtRecord::class],
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -16,6 +16,7 @@ abstract class MoodDatabase : RoomDatabase() {
     
     abstract fun moodEntryDao(): MoodEntryDao
     abstract fun userDao(): UserDao
+    abstract fun thoughtRecordDao(): ThoughtRecordDao
     
     companion object {
         @Volatile

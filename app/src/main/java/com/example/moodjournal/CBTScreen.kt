@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.moodjournal.viewmodel.ThoughtRecordViewModel
 
 data class CognitiveDistortion(
     val name: String,
@@ -25,19 +26,12 @@ data class CognitiveDistortion(
     val example: String
 )
 
-data class ThoughtRecord(
-    val situation: String,
-    val automaticThought: String,
-    val emotion: String,
-    val distortionType: String,
-    val evidence: String,
-    val alternativeThought: String
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CBTScreen(
-    onBack: () -> Unit
+    viewModel: ThoughtRecordViewModel,
+    onBack: () -> Unit,
+    onViewHistory: () -> Unit = {}
 ) {
     val darkBackground = Color(0xFF0A0C1E)
     val cardBackground = Color(0xFF1A1D35)
@@ -47,13 +41,26 @@ fun CBTScreen(
     val lightGray = Color(0xFF9CA3AF)
     val white = Color.White
     
+    val thoughtRecordCount by viewModel.thoughtRecordCount.collectAsState()
+    
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("认知扭曲", "思维记录", "练习技巧")
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("认知行为疗法 (CBT)", color = white) },
+                title = { 
+                    Column {
+                        Text("认知行为疗法 (CBT)", color = white)
+                        if (thoughtRecordCount > 0) {
+                            Text(
+                                "已保存 $thoughtRecordCount 条思维记录",
+                                fontSize = 12.sp,
+                                color = lightGray
+                            )
+                        }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -61,6 +68,13 @@ fun CBTScreen(
                             contentDescription = "返回",
                             tint = white
                         )
+                    }
+                },
+                actions = {
+                    if (thoughtRecordCount > 0) {
+                        TextButton(onClick = onViewHistory) {
+                            Text("查看历史", color = cyanText)
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -105,6 +119,7 @@ fun CBTScreen(
                     white = white
                 )
                 1 -> ThoughtRecordTab(
+                    viewModel = viewModel,
                     cardBackground = cardBackground,
                     borderColor = borderColor,
                     cyanText = cyanText,
@@ -250,6 +265,7 @@ fun CognitiveDistortionsTab(
 
 @Composable
 fun ThoughtRecordTab(
+    viewModel: ThoughtRecordViewModel,
     cardBackground: Color,
     borderColor: Color,
     cyanText: Color,
@@ -455,7 +471,18 @@ fun ThoughtRecordTab(
             onClick = {
                 if (situation.isNotBlank() && automaticThought.isNotBlank() && 
                     alternativeThought.isNotBlank()) {
+                    // 保存到数据库
+                    viewModel.insertThoughtRecord(
+                        situation = situation,
+                        automaticThought = automaticThought,
+                        emotion = emotion,
+                        distortionType = selectedDistortion,
+                        evidence = evidence,
+                        alternativeThought = alternativeThought
+                    )
+                    
                     showSuccess = true
+                    
                     // 清空表单
                     situation = ""
                     automaticThought = ""

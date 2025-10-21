@@ -21,39 +21,47 @@ import com.example.moodjournal.auth.WelcomeScreen
 import com.example.moodjournal.ui.theme.MoodJournalTheme
 import com.example.moodjournal.viewmodel.AuthViewModel
 import com.example.moodjournal.viewmodel.MoodViewModel
+import com.example.moodjournal.viewmodel.ThoughtRecordViewModel
 
 class MainActivity : ComponentActivity() {
     private val moodViewModel: MoodViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+    private val thoughtRecordViewModel: ThoughtRecordViewModel by viewModels()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MoodJournalTheme {
-                MoodJournalApp(moodViewModel, authViewModel)
+                MoodJournalApp(moodViewModel, authViewModel, thoughtRecordViewModel)
             }
         }
     }
 }
 
 @Composable
-fun MoodJournalApp(moodViewModel: MoodViewModel, authViewModel: AuthViewModel) {
+fun MoodJournalApp(
+    moodViewModel: MoodViewModel, 
+    authViewModel: AuthViewModel,
+    thoughtRecordViewModel: ThoughtRecordViewModel
+) {
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
     val authState by authViewModel.authState.collectAsState()
     val currentUser by authViewModel.currentUser.collectAsState()
     
     var currentScreen by remember { mutableStateOf("welcome") }
     
-    // 当用户登录成功后，设置 MoodViewModel 的 userId
+    // 当用户登录成功后，设置 MoodViewModel 和 ThoughtRecordViewModel 的 userId
     LaunchedEffect(currentUser) {
         currentUser?.let { user ->
             println("MainActivity: Current user changed to ${user.username} (id=${user.id})")
             moodViewModel.setUserId(user.id)
-            println("MainActivity: MoodViewModel userId set to ${user.id}")
+            thoughtRecordViewModel.setUserId(user.id)
+            println("MainActivity: ViewModels userId set to ${user.id}")
         } ?: run {
-            println("MainActivity: Current user is null, clearing MoodViewModel data")
+            println("MainActivity: Current user is null, clearing ViewModels data")
             moodViewModel.clearData()
+            thoughtRecordViewModel.clearData()
         }
     }
     
@@ -151,7 +159,15 @@ fun MoodJournalApp(moodViewModel: MoodViewModel, authViewModel: AuthViewModel) {
         }
         "cbt" -> {
             CBTScreen(
-                onBack = { currentScreen = "dashboard" }
+                viewModel = thoughtRecordViewModel,
+                onBack = { currentScreen = "dashboard" },
+                onViewHistory = { currentScreen = "thought_history" }
+            )
+        }
+        "thought_history" -> {
+            ThoughtRecordHistoryScreen(
+                viewModel = thoughtRecordViewModel,
+                onBack = { currentScreen = "cbt" }
             )
         }
     }
