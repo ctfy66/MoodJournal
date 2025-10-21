@@ -107,7 +107,8 @@ fun MoodJournalApp(moodViewModel: MoodViewModel, authViewModel: AuthViewModel) {
                 onAddMood = { currentScreen = "journal" },
                 onViewAllRecords = { currentScreen = "history" },
                 onStatsClick = { currentScreen = "stats" },
-                onSettingsClick = { currentScreen = "settings" }
+                onSettingsClick = { currentScreen = "settings" },
+                onCBTClick = { currentScreen = "cbt" }
             )
         }
         "stats" -> {
@@ -146,6 +147,11 @@ fun MoodJournalApp(moodViewModel: MoodViewModel, authViewModel: AuthViewModel) {
         "success" -> {
             LogSuccessScreen(
                 onGoToDashboard = { currentScreen = "dashboard" }
+            )
+        }
+        "cbt" -> {
+            CBTScreen(
+                onBack = { currentScreen = "dashboard" }
             )
         }
     }

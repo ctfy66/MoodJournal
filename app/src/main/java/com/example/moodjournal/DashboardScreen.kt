@@ -27,7 +27,8 @@ fun DashboardScreen(
     onAddMood: () -> Unit,
     onViewAllRecords: () -> Unit = {},
     onStatsClick: () -> Unit = {},
-    onSettingsClick: () -> Unit = {}
+    onSettingsClick: () -> Unit = {},
+    onCBTClick: () -> Unit = {}
 ) {
     val recentEntries by viewModel.recentEntries.collectAsState()
     val weekEntries by viewModel.weekEntries.collectAsState()
@@ -109,6 +110,51 @@ fun DashboardScreen(
                     borderColor = borderColor,
                     modifier = Modifier.weight(1f)
                 )
+            }
+
+            // CBT Feature Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp)
+                    .clickable { onCBTClick() },
+                colors = CardDefaults.cardColors(containerColor = cardBackground),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "🧠",
+                        fontSize = 40.sp,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                    
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "认知行为疗法",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = white
+                        )
+                        Text(
+                            text = "挑战负面思维，培养积极心态",
+                            fontSize = 13.sp,
+                            color = lightGray,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                    
+                    Text(
+                        text = "→",
+                        fontSize = 24.sp,
+                        color = cyanText,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
 
             // Recent Week Mood Section
